@@ -1,73 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>UPGB CIRCULARS</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
-      background-color: #f4f4f4;
-    }
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-    }
-    .circular-list {
-      max-width: 600px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-    }
-    .circular-list ul {
-      list-style: none;
-      padding: 0;
-    }
-    .circular-list li {
-      margin: 10px 0;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 5px;
-    }
-    .upload-info {
-      color: red;
-      text-align: center;
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 40px;
+    background: linear-gradient(135deg, #f9f9f9, #e0eafc);
+    color: #333;
+  }
 
-  <h1>UPGB CIRCULARS</h1>
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+  }
 
-  <div class="upload-info">
-    <p><strong>Note:</strong> PDF uploads are handled manually via GitHub commits. Use the repo to add PDFs.</p>
-  </div>
+  .circular-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
 
-  <div class="circular-list">
-    <h2>Available Circulars</h2>
-    <ul id="pdfList"></ul>
-  </div>
+  .circular-card {
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-  <script>
-    // List of PDFs (manually updated or loaded from JSON)
-    const pdfs = [
-      { name: "Circular 3- Establishment of UPGB ", file: "pdfs/Circular No. 03 dated 01.05.2025.pdf" },
-      { name: "Circular 4 - Interest rates on SBA and TD", file: "pdfs/Circular No. 04 dated 01.05.2025.pdf" },
-    ];
+  .circular-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
 
-    const pdfList = document.getElementById("pdfList");
+  .circular-name {
+    font-size: 1.1em;
+    font-weight: 600;
+  }
 
-    pdfs.forEach(pdf => {
-      const li = document.createElement("li");
-      const link = document.createElement("a");
-      link.href = pdf.file;
-      link.textContent = pdf.name;
-      link.target = "_blank";
-      li.appendChild(link);
-      pdfList.appendChild(li);
-    });
-  </script>
+  .circular-link {
+    text-decoration: none;
+    background-color: #2980b9;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+  }
 
-</body>
-</html>
+  .circular-link:hover {
+    background-color: #1c5980;
+  }
+
+  .upload-info {
+    color: #c0392b;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+</style>
+
+<h1>UPGB CIRCULARS</h1>
+
+<div class="upload-info">
+  📎 Circulars are updated via GitHub. Click below to read each circular.
+</div>
+
+<div class="circular-container" id="pdfList"></div>
+
+<script>
+  const pdfs = [
+    { name: "Circular 3 - Establishment of UPGB", file: "pdfs/Circular No. 03 dated 01.05.2025.pdf" },
+    { name: "Circular 4 - Interest rates on SBA and TD", file: "pdfs/Circular No. 04 dated 01.05.2025.pdf" }
+  ];
+
+  const pdfList = document.getElementById("pdfList");
+
+  pdfs.forEach(pdf => {
+    const card = document.createElement("div");
+    card.className = "circular-card";
+
+    const name = document.createElement("div");
+    name.className = "circular-name";
+    name.textContent = pdf.name;
+
+    const link = document.createElement("a");
+    link.className = "circular-link";
+    link.href = pdf.file;
+    link.target = "_blank";
+    link.textContent = "📄 View PDF";
+
+    card.appendChild(name);
+    card.appendChild(link);
+    pdfList.appendChild(card);
+  });
+</script>
