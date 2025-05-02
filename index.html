@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UPGB CIRCULARS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .circular-list {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .circular-list ul {
+      list-style: none;
+      padding: 0;
+    }
+    .circular-list li {
+      margin: 10px 0;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+    .upload-info {
+      color: red;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>UPGB CIRCULARS</h1>
+
+  <div class="upload-info">
+    <p><strong>Note:</strong> PDF uploads are handled manually via GitHub commits. Use the repo to add PDFs.</p>
+  </div>
+
+  <div class="circular-list">
+    <h2>Available Circulars</h2>
+    <ul id="pdfList"></ul>
+  </div>
+
+  <script>
+    // List of PDFs (manually updated or loaded from JSON)
+    const pdfs = [
+      { name: "Circular Jan 2025", file: "pdfs/circular-jan-2025.pdf" },
+      { name: "HR Policy Update", file: "pdfs/hr-policy-update.pdf" },
+    ];
+
+    const pdfList = document.getElementById("pdfList");
+
+    pdfs.forEach(pdf => {
+      const li = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = pdf.file;
+      link.textContent = pdf.name;
+      link.target = "_blank";
+      li.appendChild(link);
+      pdfList.appendChild(li);
+    });
+  </script>
+
+</body>
+</html>
