@@ -4,7 +4,8 @@ from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["https://upgb-circulars-backend.onrender.com"])
+
 
 # Folder to store the PDFs (adjust this to your actual path)
 PDFS_DIRECTORY = "pdfs"  # Make sure PDFs are uploaded to this directory
