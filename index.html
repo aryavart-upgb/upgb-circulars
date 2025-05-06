@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>UPGB CIRCULARS</title>
@@ -80,6 +81,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <h1>UPGB CIRCULARS</h1>
@@ -93,69 +95,64 @@
   <div class="circular-container" id="pdfList"></div>
 
   <script>
-    const pdfs = [
-      { name: "Circular 1 - Discretionary Administrative Powers- Cancelled", file: "pdfs/Circular No. 01 dated 01.05.2025.pdf" },
-      { name: "Circular 2 - Appointment of Chairman Sir", file: "pdfs/Cir No. 02 - Chairman UPGB.pdf" },
-      { name: "Circular 3 - Establishment of UPGB", file: "pdfs/Circular No. 03 dated 01.05.2025.pdf" },
-      { name: "Circular 4 - Interest rates on SBA and TD", file: "pdfs/Circular No. 04 dated 01.05.2025.pdf" },
-      { name: "Circular 5 - Loan Policy", file: "pdfs/Circular No 5 Loan Policy 2025-26.pdf" },
-      { name: "Circular 6 - Third Party Tie-up", file: "pdfs/Cir_06 तृतीय पक्ष बीमा व्यवसाय हेतु कॉर्पोरेट टाई-अप कंपनियों द्वारा बीमा कराने के संबंध म.pdf" },
-      { name: "Circular 7 - Loan Schemes", file: "pdfs/Circular No 7 Loan Schemes_compressed.pdf" },
-      { name: "Circular 8 - Advance service charges", file: "pdfs/Circular no 8 Service Charges.pdf" },
-      { name: "Circular 9 - ROI Advances", file: "pdfs/Circular no 9 ROI.pdf" },
-      { name: "Circular 10 - DLP of credit hub", file: "pdfs/Circular No 10 DLP of Credit Hub and RLF.pdf" },
-      { name: "Circular 11 - Service Charges", file: "pdfs/Cir No 11 Service Charges for Uttar Pradesh Gramin Bank.pdf" },
-      { name: "Circular 12 - Recovery Policy", file: "pdfs/Cir No.12_Recovery Policy with annex.pdf" },
-      { name: "Circular 13 - Staff Accountability", file: "pdfs/Cir No.13_Policy on Staff Accountability with annexure.pdf" },
-      { name: "Circular 14 - Master Direction on Counterfeit Notes", file: "pdfs/Cir. No. 14 Dated-01.05.2025 Master Direction on Counterfeit Notes, 2025.pdf" },
-      { name: "Circular 15 - Liability Product", file: "pdfs/Cir No-15_Liability Product.pdf" },
-      { name: "Circular 16 - Risk Based Internal Audit Policy", file: "pdfs/Cir-16 Risk Based Internal Audit Policy_compressed.pdf" },
-      { name: "Circular 17 - Concurrent Audit Policy", file: "pdfs/Cir-17 Concurrent Audit Policy_compressed.pdf" },
-      { name: "Circular 18 - Revenue Audit Policy", file: "pdfs/Cir-18 Revenue Audit Policy.pdf" },
-      { name: "Circular 19 - Snap Audit Policy", file: "pdfs/Cir-19 Snap Audit Policy.pdf" },
-      { name: "Circular 20 - Special Audit Policy", file: "pdfs/Cir-20 Special Audit Policy.pdf" },
-      { name: "Circular 21 - Information System Audit Policy", file: "pdfs/Cir-21 Information System Audit Policy (Version-1.o)_compressed.pdf" },
-      { name: "Circular 22 - Management Audit Policy", file: "pdfs/Cir-22 Management Audit Policy.pdf" },
-      { name: "Circular 23 - Revised Discretionary Administrative Powers", file: "pdfs/Circulaer 23 Revised Descretionary Administrative Powers for Domestic Operations.pdf" },
-      { name: "Circular 24 - Commision to BCs", file: "pdfs/Cir.No. 24_Commission Payable to Business Correspondents (BCs)_01.05.2025.pdf" },
-      { name: "Circular 25 - RIDER CLAUSE", file: "pdfs/CIRCULAR 25 DT 29.04.2025 RIDER CLAUSE" }
-    ];
-
     const pdfList = document.getElementById("pdfList");
     const searchInput = document.getElementById("searchInput");
 
-    function renderCirculars(filter = "") {
-      pdfList.innerHTML = "";
-      pdfs
-        .filter(pdf => pdf.name.toLowerCase().includes(filter.toLowerCase()))
-        .forEach(pdf => {
-          const card = document.createElement("div");
-          card.className = "circular-card";
-
-          const name = document.createElement("div");
-          name.className = "circular-name";
-          name.textContent = pdf.name;
-
-          const link = document.createElement("a");
-          link.className = "circular-link";
-          link.href = pdf.file;
-          link.target = "_blank";
-          link.textContent = "📄 View PDF";
-
-          card.appendChild(name);
-          card.appendChild(link);
-          pdfList.appendChild(card);
-        });
+    // Fetch all circulars from the API
+    async function fetchCirculars() {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/circulars");  // Use your backend URL here
+        const data = await response.json();
+        renderCirculars(data);
+      } catch (error) {
+        console.error("Error fetching circulars:", error);
+      }
     }
 
-    // Initial render
-    renderCirculars();
+    // Fetch search results from the API
+    async function searchCirculars(query) {
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/search?query=${query}`);
+        const data = await response.json();
+        renderCirculars(data);
+      } catch (error) {
+        console.error("Error searching circulars:", error);
+      }
+    }
 
-    // Add search functionality
+    // Render circulars on the page
+    function renderCirculars(circulars) {
+      pdfList.innerHTML = "";
+      circulars.forEach(pdf => {
+        const card = document.createElement("div");
+        card.className = "circular-card";
+
+        const name = document.createElement("div");
+        name.className = "circular-name";
+        name.textContent = pdf.name;
+
+        const link = document.createElement("a");
+        link.className = "circular-link";
+        link.href = `http://127.0.0.1:5000/api/pdf/${pdf.file}`; // PDF link from backend
+        link.target = "_blank";
+        link.textContent = "📄 View PDF";
+
+        card.appendChild(name);
+        card.appendChild(link);
+        pdfList.appendChild(card);
+      });
+    }
+
+    // Search functionality (on input change)
     searchInput.addEventListener("input", (e) => {
-      renderCirculars(e.target.value);
+      searchCirculars(e.target.value);
     });
+
+    // Initial fetch of all circulars
+    fetchCirculars();
+
   </script>
 
 </body>
+
 </html>
