@@ -101,7 +101,7 @@
     // Fetch all circulars from the API
     async function fetchCirculars() {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/circulars");  // Use your backend URL here
+        const response = await fetch("https://upgb-circulars-backend.onrender.com/api/circulars");  // Use your backend URL here
         const data = await response.json();
         renderCirculars(data);
       } catch (error) {
@@ -112,7 +112,7 @@
     // Fetch search results from the API
     async function searchCirculars(query) {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/search?query=${query}`);
+        const response = await fetch(`https://upgb-circulars-backend.onrender.com/api/search?query=${query}`);
         const data = await response.json();
         renderCirculars(data);
       } catch (error) {
@@ -133,7 +133,7 @@
 
         const link = document.createElement("a");
         link.className = "circular-link";
-        link.href = `http://127.0.0.1:5000/api/pdf/${pdf.file}`; // PDF link from backend
+        link.href = `https://upgb-circulars-backend.onrender.com/api/pdf/${pdf.file}`; // PDF link from backend
         link.target = "_blank";
         link.textContent = "📄 View PDF";
 
