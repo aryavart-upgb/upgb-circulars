@@ -2,14 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>UPGB CIRCULARS</title>
+  <title>UPGB Circulars Portal</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
     body {
+      margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 40px 20px;
-      background: linear-gradient(135deg, #f9f9f9, #e0eafc);
+      background: linear-gradient(-45deg, #e0eafc, #cfdef3, #f9f9f9, #f2fcfe);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       color: #333;
+      padding: 40px 20px 60px 20px;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
     }
 
     h1 {
@@ -71,7 +80,7 @@
 
     .circular-link {
       text-decoration: none;
-      background-color: #ff9933; /* Saffron */
+      background-color: #ff9933;
       color: white;
       padding: 10px 14px;
       border-radius: 6px;
@@ -81,12 +90,12 @@
     }
 
     .circular-link:hover {
-      background-color: #cc7a29; /* Darker saffron for hover */
+      background-color: #cc7a29;
     }
 
     .circular-icon {
       margin-right: 10px;
-      color: #ff9933; /* Saffron icon */
+      color: #ff9933;
       font-size: 1.2em;
     }
 
@@ -116,6 +125,20 @@
       margin-top: 50px;
       color: #777;
     }
+
+    .circular-count {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 10px 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      font-size: 0.95em;
+      font-weight: bold;
+      color: #2c3e50;
+      z-index: 998;
+    }
   </style>
 </head>
 <body>
@@ -127,15 +150,19 @@
 
   <div class="circular-container" id="pdfList"></div>
 
-  <button id="topBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'});"><i class="fas fa-arrow-up"></i></button>
+  <div class="circular-count" id="circularCount">Total Circulars: 0</div>
+
+  <button id="topBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+    <i class="fas fa-arrow-up"></i>
+  </button>
 
   <footer>
     © 2025 Uttar Pradesh Gramin Bank. All Rights Reserved.
   </footer>
 
   <script>
-    const pdfs = [
-      { name: "Circular 1 - Discretionary Administrative Powers- Cancelled", file: "pdfs/Circular No. 01 dated 01.05.2025.pdf" },
+    const pdfs = [ 
+        { name: "Circular 1 - Discretionary Administrative Powers- Cancelled", file: "pdfs/Circular No. 01 dated 01.05.2025.pdf" },
       { name: "Circular 2 - Appointment of Chairman Sir", file: "pdfs/Cir No. 02 - Chairman UPGB.pdf" },
       { name: "Circular 3 - Establishment of UPGB", file: "pdfs/Circular No. 03 dated 01.05.2025.pdf" },
       { name: "Circular 4 - Interest rates on SBA and TD", file: "pdfs/Circular No. 04 dated 01.05.2025.pdf" },
@@ -208,34 +235,35 @@
        { name: "Circular 96 - Clarification in Salary Saving Scheme", file: "pdfs/Cir No 96 Clarification in Salary Saving Scheme.pdf" },
        { name: "Circular 99 - Collection and Roll over efficiency", file: "pdfs/Cir_99 Collection and Roll over efficiency (1).pdf" },
        { name: "Circular 100 - Turnover Efficiency", file: "pdfs/Cir_100 Turnover Efficiency.pdf" }      
-          ];
+    ];
 
     const pdfList = document.getElementById("pdfList");
     const searchInput = document.getElementById("searchInput");
     const topBtn = document.getElementById("topBtn");
+    const circularCount = document.getElementById("circularCount");
 
     function renderCirculars(filter = "") {
       pdfList.innerHTML = "";
-      pdfs
-        .filter(pdf => pdf.name.toLowerCase().includes(filter.toLowerCase()))
-        .forEach(pdf => {
-          const card = document.createElement("div");
-          card.className = "circular-card";
+      const filtered = pdfs.filter(pdf => pdf.name.toLowerCase().includes(filter.toLowerCase()));
+      circularCount.textContent = `Total Circulars: ${filtered.length}`;
+      filtered.forEach(pdf => {
+        const card = document.createElement("div");
+        card.className = "circular-card";
 
-          const name = document.createElement("div");
-          name.className = "circular-name";
-          name.innerHTML = `<i class="fas fa-file-alt circular-icon"></i> ${pdf.name}`;
+        const name = document.createElement("div");
+        name.className = "circular-name";
+        name.innerHTML = `<i class="fas fa-file-alt circular-icon"></i> ${pdf.name}`;
 
-          const link = document.createElement("a");
-          link.className = "circular-link";
-          link.href = pdf.file;
-          link.target = "_blank";
-          link.textContent = "📄 View PDF";
+        const link = document.createElement("a");
+        link.className = "circular-link";
+        link.href = pdf.file;
+        link.target = "_blank";
+        link.textContent = "📄 View PDF";
 
-          card.appendChild(name);
-          card.appendChild(link);
-          pdfList.appendChild(card);
-        });
+        card.appendChild(name);
+        card.appendChild(link);
+        pdfList.appendChild(card);
+      });
     }
 
     renderCirculars();
